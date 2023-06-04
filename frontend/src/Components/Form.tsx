@@ -1,6 +1,6 @@
 import { FormControl, Input, Stack, Button} from "@chakra-ui/react";
 import { useState } from "react";
-import { addTodo } from "../utils/fetchAPI";
+import { addTodo, editTodo } from "../utils/fetchAPI";
 
 interface InputState {
   title: string;
@@ -31,8 +31,8 @@ const Form: React.FC<ComponentProps> = ({dispatch,edit}) => {
         const result = await addTodo(input);
         dispatch({ type: "ADD", payload: result.data });
       }else{
-        // const edit = editTodo(input,id)
-        dispatch({type:"UPDATE", payload: {...edit,...input}})
+        const todo = await editTodo(edit._id,input)
+        dispatch({type:"UPDATE", payload: todo.data})
       }
     } catch(err){
       console.log(err)

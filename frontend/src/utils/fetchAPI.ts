@@ -59,6 +59,7 @@ export const deleteTodo = async(id:string)=>{
 export const editTodo =async (id:string, input:object) => {
   try {
     const result = await axios.patch(`/api/todo/update/${id}`,input, { headers });
+    console.log(result)
     return result;
   } catch (err) {
     throw new Error('could not add')

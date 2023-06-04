@@ -47,7 +47,7 @@ export const deleteTodo = async (req: Request, res: Response, next: NextFunction
 export const updateTodo = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try{
     const {id} = req.params;
-    const newTodo = await Todo.findByIdAndUpdate(id, req.body)
+    const newTodo = await Todo.findByIdAndUpdate(id, req.body,{ new: true })
     if(!newTodo) return next({ statusCode: 400, message: 'Does not Exist' })
     res.status(200).json(newTodo);
   } catch(error){
