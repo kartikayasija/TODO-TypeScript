@@ -1,10 +1,10 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import CardList from "../Components/CardList";
 import Form from "../Components/Form";
 import Profile from "../Components/Profile";
 
 type CardData = {
-  id: string;
+  _id: string;
   title: string;
   content: string;
 };
@@ -16,6 +16,8 @@ type CardAction =
   | { type: "DELETE"; payload: string };
 
 const Todo: React.FC = () => {
+  const [edit, setEdit] = useState(null);
+  
   const cardReducer = (data: CardData[], action: CardAction): CardData[] => {
     switch (action.type) {
       case "SET_DATA":
@@ -23,11 +25,16 @@ const Todo: React.FC = () => {
       case "ADD":
         return [...data, action.payload];
       case "UPDATE":
-        return data.map((item) =>
-          item.id === action.payload.id ? action.payload : item
-        );
+        const newData = data.map((item) => {
+          if (item._id === action.payload._id) {
+            return action.payload
+          } else return item
+        });
+        setEdit(null)
+        return newData;
+
       case "DELETE":
-        return data.filter((item) => item.id !== action.payload);
+        return data.filter((item) => item._id !== action.payload);
       default:
         return data;
     }
@@ -35,11 +42,12 @@ const Todo: React.FC = () => {
 
   const [data, dispatch] = useReducer(cardReducer, []);
 
+
   return (
     <>
       <Profile />
-      <Form dispatch={dispatch}/>
-      <CardList dispatch={dispatch} data={data}/>
+      <Form dispatch={dispatch} edit={edit} />
+      <CardList dispatch={dispatch} data={data} setEdit={setEdit} />
     </>
   );
 };

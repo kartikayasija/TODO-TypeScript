@@ -9,10 +9,11 @@ interface InputState {
 
 interface ComponentProps {
   dispatch: any;
+  edit: any;
 }
 
 
-const Form: React.FC<ComponentProps> = ({dispatch}) => {
+const Form: React.FC<ComponentProps> = ({dispatch,edit}) => {
   const [input,setInput] = useState<InputState>({
     title:'',
     content: ''
@@ -26,8 +27,13 @@ const Form: React.FC<ComponentProps> = ({dispatch}) => {
     e.stopPropagation();
     e.preventDefault();
     try{
-      const result = await addTodo(input);
-      dispatch({ type: "ADD", payload: result.data });
+      if(edit===null){
+        const result = await addTodo(input);
+        dispatch({ type: "ADD", payload: result.data });
+      }else{
+        // const edit = editTodo(input,id)
+        dispatch({type:"UPDATE", payload: {...edit,...input}})
+      }
     } catch(err){
       console.log(err)
       alert('Could not be added');
@@ -42,7 +48,7 @@ const Form: React.FC<ComponentProps> = ({dispatch}) => {
         </FormControl>
         <Stack spacing={4} direction="row" align="center">
           <Button colorScheme="teal" size="md" onClick={handleSubmit}>
-            Button
+            {edit!==null?'Edit':'Add'}
           </Button>
         </Stack>
       </Stack>

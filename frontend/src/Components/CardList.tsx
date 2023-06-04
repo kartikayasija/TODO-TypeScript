@@ -4,12 +4,13 @@ import Cards from "./Cards";
 import { getAllTodo } from "../utils/fetchAPI";
 
 interface ComponentProps {
-  dispatch: any;
-  data: any[]
+  dispatch: any,
+  data: any[],
+  setEdit: any,
 }
 
 
-const CardList: React.FC<ComponentProps> = ({ dispatch,data }) => {
+const CardList: React.FC<ComponentProps> = ({ dispatch,data,setEdit }) => {
 
   useEffect(() => {
     const fetchTodo = async () => {
@@ -32,7 +33,7 @@ const CardList: React.FC<ComponentProps> = ({ dispatch,data }) => {
         mx="auto"
         my="60px"
       >
-        <Cards data={data}/>
+        <Cards data={data} dispatch={dispatch} setEdit={setEdit}/>
       </SimpleGrid>
     </>
   );

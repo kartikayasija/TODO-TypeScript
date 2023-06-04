@@ -10,7 +10,7 @@ export const loginApi = async (input: object) => {
     const result = await axios.post("/api/auth/login", input);
     const token = result.data.token;
     localStorage.setItem("token", token);
-    console.log(token);
+    return;
   } catch (err) {
     throw new Error("Wrong Credentials");
   }
@@ -41,6 +41,24 @@ export const verifyToken = async () => {
 export const addTodo = async(input:object)=>{
   try {
     const result = await axios.post("/api/todo/create",input, { headers });
+    return result;
+  } catch (err) {
+    throw new Error('could not add')
+  }
+}
+
+export const deleteTodo = async(id:string)=>{
+  try {
+    const result = await axios.delete(`/api/todo/delete/${id}`, { headers });
+    return result;
+  } catch (err) {
+    throw new Error('could not add')
+  }
+}
+
+export const editTodo =async (id:string, input:object) => {
+  try {
+    const result = await axios.patch(`/api/todo/update/${id}`,input, { headers });
     return result;
   } catch (err) {
     throw new Error('could not add')
