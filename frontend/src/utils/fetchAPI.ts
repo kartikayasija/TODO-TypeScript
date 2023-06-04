@@ -10,17 +10,28 @@ export const loginApi = async (input: object) => {
     const result = await axios.post("/api/auth/login", input);
     const token = result.data.token;
     localStorage.setItem("token", token);
-    return;
   } catch (err) {
+    alert('Wrong Credentials')
+    throw new Error("Wrong Credentials");
+  }
+};
+export const signupApi = async (input: object) => {
+  try {
+    const result = await axios.post("/api/auth/signup", input);
+    const token = result.data.token;
+    localStorage.setItem("token", token);
+  } catch (err) {
+    alert('Wrong Credentials')
     throw new Error("Wrong Credentials");
   }
 };
 
-export const getAllTodo = async () => {
+export const getAllTodo = async (Navigate:any) => {
   try {
     const result = await axios.get("/api/todo/getAll", { headers });
     return result;
   } catch (err) {
+    Navigate("/auth/login");
     throw err;
   }
 };

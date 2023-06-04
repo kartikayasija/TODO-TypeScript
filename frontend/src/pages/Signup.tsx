@@ -12,10 +12,41 @@ import {
   useColorModeValue,
   Link,
 } from '@chakra-ui/react';
+import {Link as login, useNavigate} from 'react-router-dom';
+import {useState} from "react";
+import { signupApi } from '../utils/fetchAPI';
 
-import {Link as login} from 'react-router-dom';
+interface InputState {
+  email: string;
+  password: string;
+}
+
 
 export default function SignupCard() {
+  const [input, setInput] = useState<InputState>({
+    email:'',
+    password:''
+  });
+
+  const Navigate = useNavigate();
+
+  const handleChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
+    e.stopPropagation();
+    setInput({ ...input, [e.target.name]: e.target.value });
+  }
+
+  const handleSubmit = async(e: React.FormEvent<HTMLButtonElement>) =>{
+    e.stopPropagation();
+    e.preventDefault();
+    try{
+      await signupApi(input);
+      Navigate('/');
+    } catch(err){
+      alert('Wrong Credentials');
+    }
+  }
+
+  
   return (
     <Flex
     minH={'100vh'}
@@ -34,11 +65,11 @@ export default function SignupCard() {
         <Stack spacing={4}>
           <FormControl id="email">
             <FormLabel>Email address</FormLabel>
-            <Input type="email" />
+            <Input type="email" name="email" onChange={handleChange} value={input.email} />
           </FormControl>
           <FormControl id="password">
             <FormLabel>Password</FormLabel>
-            <Input type="password" />
+            <Input type="password" name="password" onChange={handleChange} value={input.password} />
           </FormControl>
           <Stack spacing={10}>
             <Stack
@@ -52,7 +83,9 @@ export default function SignupCard() {
               color={'white'}
               _hover={{
                 bg: 'blue.500',
-              }}>
+              }}
+              onClick={handleSubmit}
+              >
               Create
             </Button>
           </Stack>
