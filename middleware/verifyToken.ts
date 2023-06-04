@@ -12,14 +12,12 @@ const verify = async (req: Request, res: Response, next: NextFunction): Promise<
       res.locals.userId = decoded.id;
       next();
     } catch (error) {
-      res.status(401);
-      throw new Error("Not authorized, token failed");
+      res.status(401).json({ message: "Not authorized, token failed", error: error });
     }
   }
 
   if (!token) {
-    res.status(401);
-    throw new Error("Not authorized, no token");
+    res.status(401).json({ message: "Not authorized, No token"});
   }
 }; 
 

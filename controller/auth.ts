@@ -48,3 +48,7 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
   }
 
 }
+
+export const verifyToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  res.status(200).json({ valid: true });
+}
