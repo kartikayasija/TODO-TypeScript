@@ -28,7 +28,7 @@ export const signupApi = async (input: object) => {
 
 export const getAllTodo = async (Navigate:any) => {
   try {
-    const result = await axios.get("/api/todo/getAll", { headers });
+    const result = await axios.get("/api/todo/getAll",{ headers });
     return result;
   } catch (err) {
     Navigate("/auth/login");
