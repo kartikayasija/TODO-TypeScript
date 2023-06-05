@@ -1,4 +1,5 @@
 import express, {Express, Request, Response } from 'express';
+import path from 'path';
 import dotenv from "dotenv";
 import { connectToMongoDB } from './config/db';
 import errorHandler from './middleware/errorHandler';
@@ -18,10 +19,20 @@ app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)  
 app.use('/api/todo', verify, todoRouter)  
 
+const isProduction = process.env.NODE_ENV === 'production';
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Server running');
-});
+if (isProduction) {
+  app.use(express.static(path.join(__dirname, 'frontend/dist')));
+
+  app.get('*', (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, 'frontend/dist', 'index.html'));
+  });
+} else {
+
+  app.get('/', (req: Request, res: Response) => {
+    res.send('Server running');
+  });
+}
 
 app.use(errorHandler);
 
