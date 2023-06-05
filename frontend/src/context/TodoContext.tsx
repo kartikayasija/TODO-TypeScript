@@ -12,8 +12,8 @@ const CardContext = createContext<{
   data: CardData[];
   dispatch: React.Dispatch<CardAction>;
 }>({
-  data: [], // Provide initial value for data
-  dispatch: () => {} // Provide initial value for dispatch
+  data: [], 
+  dispatch: () => {} 
 });
 
 type CardAction =

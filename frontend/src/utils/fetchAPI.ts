@@ -26,16 +26,6 @@ export const signupApi = async (input: object) => {
   }
 };
 
-export const getAllTodo = async (Navigate:any) => {
-  try {
-    const result = await axios.get("/api/todo/getAll",{ headers });
-    return result;
-  } catch (err) {
-    Navigate("/auth/login");
-    throw err;
-  }
-};
-
 export const verifyToken = async () => {
   try {
     const response = await axios.post("/api/auth/verifyToken",{},{ headers });

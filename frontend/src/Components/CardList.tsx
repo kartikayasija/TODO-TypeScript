@@ -12,7 +12,7 @@ interface ComponentProps {
 
 const CardList: React.FC<ComponentProps> = ({ setEdit }) => {
 
-  const {dispatch, data} = useContext(CardContext);
+  const {dispatch} = useContext(CardContext);
 
   const Navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
@@ -54,7 +54,7 @@ const CardList: React.FC<ComponentProps> = ({ setEdit }) => {
         mx="auto"
         my="60px"
       >
-        <Cards data={data} dispatch={dispatch} setEdit={setEdit}/>
+        <Cards setEdit={setEdit}/>
       </SimpleGrid>
     </>
   );

@@ -9,14 +9,15 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { deleteTodo } from "../utils/fetchAPI";
+import { useContext } from "react";
+import { CardContext } from "../context/TodoContext";
 
 interface CardsProps {
-  data: any[];
-  dispatch: any;
   setEdit: any;
 }
 
-const Cards: React.FC<CardsProps> = ({ data, dispatch,setEdit }) => {
+const Cards: React.FC<CardsProps> = ({setEdit}) => {
+  const{data,dispatch} = useContext(CardContext);
   const handleDelete = async (
     e: React.FormEvent<HTMLButtonElement>,
     id: string
@@ -24,9 +25,8 @@ const Cards: React.FC<CardsProps> = ({ data, dispatch,setEdit }) => {
     e.preventDefault();
     e.stopPropagation();
     try {
+      await deleteTodo(id);
       dispatch({ type: "DELETE", payload: id });
-      const result = await deleteTodo(id);
-      console.log(result);
     } catch (err) {
       throw new Error("could'nt delete");
     }
