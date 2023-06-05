@@ -22,7 +22,7 @@ app.use('/api/todo', verify, todoRouter)
 const isProduction = process.env.NODE_ENV === 'production';
 
 if (isProduction) {
-  app.use(express.static(path.join(__dirname, 'frontend/dist')));
+  app.use(express.static('frontend/dist'));
 
   app.get('*', (req,res) => res.sendFile(path.resolve('frontend', 'dist','index.html')));
 } else {
