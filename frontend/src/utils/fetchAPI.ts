@@ -1,17 +1,12 @@
 import axios from "axios";
 
-const headers = {
-  "Content-Type": "application/json",
-  Authorization: `Bearer ${localStorage.getItem("token")!}`,
-};
-
 export const loginApi = async (input: object) => {
   try {
     const result = await axios.post("/api/auth/login", input);
     const token = result.data.token;
     localStorage.setItem("token", token);
   } catch (err) {
-    alert('Wrong Credentials')
+    alert("Wrong Credentials");
     throw new Error("Wrong Credentials");
   }
 };
@@ -21,14 +16,23 @@ export const signupApi = async (input: object) => {
     const token = result.data.token;
     localStorage.setItem("token", token);
   } catch (err) {
-    alert('Wrong Credentials')
+    alert("Wrong Credentials");
     throw new Error("Wrong Credentials");
   }
 };
 
 export const verifyToken = async () => {
   try {
-    const response = await axios.post("/api/auth/verifyToken",{},{ headers });
+    const response = await axios.post(
+      "/api/auth/verifyToken",
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")!}`,
+        },
+      }
+    );
     if (response.data.valid) {
       return true;
     } else {
@@ -39,30 +43,45 @@ export const verifyToken = async () => {
   }
 };
 
-export const addTodo = async(input:object)=>{
+export const addTodo = async (input: object) => {
   try {
-    const result = await axios.post("/api/todo/create",input, { headers });
+    const result = await axios.post("/api/todo/create", input, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")!}`,
+      },
+    });
     return result;
   } catch (err) {
-    throw new Error('could not add')
+    throw new Error("could not add");
   }
-}
+};
 
-export const deleteTodo = async(id:string)=>{
+export const deleteTodo = async (id: string) => {
   try {
-    const result = await axios.delete(`/api/todo/delete/${id}`, { headers });
+    const result = await axios.delete(`/api/todo/delete/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")!}`,
+      },
+    });
     return result;
   } catch (err) {
-    throw new Error('could not add')
+    throw new Error("could not add");
   }
-}
+};
 
-export const editTodo =async (id:string, input:object) => {
+export const editTodo = async (id: string, input: object) => {
   try {
-    const result = await axios.patch(`/api/todo/update/${id}`,input, { headers });
-    console.log(result)
+    const result = await axios.patch(`/api/todo/update/${id}`, input, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")!}`,
+      },
+    });
+    console.log(result);
     return result;
   } catch (err) {
-    throw new Error('could not add')
+    throw new Error("could not add");
   }
-}
+};
