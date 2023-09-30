@@ -28,7 +28,7 @@ const Form: React.FC<ComponentProps> = ({ edit,setEdit }) => {
     e.stopPropagation();
     e.preventDefault();
     try {
-      if (edit === null) {
+      if (!edit) {
         const result = await addTodo(input);
         dispatch({ type: "ADD", payload: result.data });
       } else {
@@ -36,6 +36,10 @@ const Form: React.FC<ComponentProps> = ({ edit,setEdit }) => {
         dispatch({ type: "UPDATE", payload: todo.data });
         setEdit(null)
       }
+      setInput({
+        title: "",
+        content: "",
+      })
     } catch (err) {
       console.log(err);
       alert("Could not be added");
